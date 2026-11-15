@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Document {
+  id        String   @id @default(uuid())
+  filename  String
+  size      Int
+  fileType  String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  facts             DocumentFacts[]
+  analysisDocuments AnalysisSessionDocument[]
+}
+
+model DocumentFacts {
+  id         String   @id @default(uuid())
+  documentId String
+  facts      String   // JSON string of ExtractedFacts
+  createdAt  DateTime @default(now())
+
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+}
+
+model AnalysisSession {
+  id        String   @id @default(uuid())
+  prompt    String
+  status    String   @default("pending") // pending | processing | completed | failed
+  result    String?  // JSON string of NormalizedAnalysisResult
+  error     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  documents AnalysisSessionDocument[]
+}
+
+model AnalysisSessionDocument {
+  id                String @id @default(uuid())
+  analysisSessionId String
+  documentId        String
+
+  analysisSession AnalysisSession @relation(fields: [analysisSessionId], references: [id], onDelete: Cascade)
+  document        Document        @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@unique([analysisSessionId, documentId])
+}
