@@ -91,7 +91,7 @@ A full-stack application for uploading multiple documents, providing analysis in
 - ✅ Extensible LLM provider system (interface + factory + registry)
 - ✅ Extensible parser system (interface + factory)
 - ✅ Zod schema validation for extracted facts (backend + frontend)
-- ✅ 40 automated tests (vitest): schema validation, normalizer, file validator
+- ✅ 50 automated tests (vitest): schema validation, normalizer, file validator, and document parsers
 - ✅ Environment variable validation with Zod at startup
 - ✅ Document deletion
 - ✅ Select all / individual document selection
@@ -174,7 +174,7 @@ registry.set('gemini', () => new GeminiProvider(process.env.GEMINI_API_KEY!));
 | Frontend | React 18, TypeScript, Vite, Tailwind CSS |
 | Backend | Node.js, Express, TypeScript |
 | Database | SQLite + Prisma ORM |
-| Testing | Vitest (40 tests) |
+| Testing | Vitest (50 tests) |
 | Validation | Zod (runtime schema validation) |
 | Document parsing | pdf-parse, csv-parse |
 | LLM | ILLMProvider interface + MockProvider |
@@ -209,7 +209,7 @@ The frontend runs on `http://localhost:5173` and proxies API requests to the bac
 ### Running Tests
 
 ```bash
-# Backend (34 tests)
+# Backend (44 tests)
 cd backend && npm test
 
 # Frontend (6 tests)
