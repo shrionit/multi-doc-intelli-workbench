@@ -24,7 +24,8 @@ export async function createAnalysis(req: Request, res: Response, next: NextFunc
 
 export async function getAnalysis(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    const session = await analysisService.getAnalysisSession(req.params.id);
+    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const session = await analysisService.getAnalysisSession(id);
     res.json(session);
   } catch (err) {
     next(err);

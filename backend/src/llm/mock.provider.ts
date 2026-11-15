@@ -89,7 +89,7 @@ export class MockProvider implements ILLMProvider {
           isInference: true,
           confidence: 'medium' as const,
         },
-        ...(discrepancies.length > 0
+        ...(discrepancies && discrepancies.length > 0
           ? [{
               note: `${discrepancies.length} potential discrepancies were identified across documents that may require manual review.`,
               isInference: true,

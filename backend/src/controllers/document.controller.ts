@@ -40,7 +40,8 @@ export async function getAllDocuments(_req: Request, res: Response, next: NextFu
 
 export async function getDocument(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    const doc = await documentService.getDocumentById(req.params.id);
+    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const doc = await documentService.getDocumentById(id);
     res.json(doc);
   } catch (err) {
     next(err);
@@ -49,7 +50,8 @@ export async function getDocument(req: Request, res: Response, next: NextFunctio
 
 export async function deleteDocument(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    await documentService.deleteDocument(req.params.id);
+    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    await documentService.deleteDocument(id);
     res.status(204).send();
   } catch (err) {
     next(err);
