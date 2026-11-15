@@ -1,6 +1,6 @@
 import { SupportedFileType } from '../types/document.types';
 import { validateFile, ValidationResult } from './validators/file.validator';
-import { getParser } from './parser.factory';
+import { getParser, registerParser } from './parser.factory';
 import { ParsedContent } from './parsers/parser.interface';
 
 export interface IngestionResult {
@@ -45,4 +45,4 @@ export async function ingestDocument(
   }
 }
 
-export { validateFile, getParser, registerParser } from './parser.factory';
+export { validateFile, getParser, registerParser };
