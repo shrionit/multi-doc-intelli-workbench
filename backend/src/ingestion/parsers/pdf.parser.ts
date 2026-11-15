@@ -1,12 +1,14 @@
-import pdfParse from 'pdf-parse';
 import { IDocumentParser, ParsedContent } from './parser.interface';
+import pdfParse from 'pdf-parse';
 
 export class PdfParser implements IDocumentParser {
   readonly supportedType = 'pdf';
 
   async parse(buffer: Buffer, filename: string): Promise<ParsedContent> {
     try {
-      const data = await pdfParse(buffer);
+      // Convert Buffer to Uint8Array so pdf.js receives a standard typed array across all JS runtimes (Node, Vitest, tsx)
+      const uint8Array = new Uint8Array(buffer);
+      const data = await pdfParse(uint8Array as unknown as Buffer);
 
       const text = data.text?.trim();
       if (!text || text.length === 0) {
