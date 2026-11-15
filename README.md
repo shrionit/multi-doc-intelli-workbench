@@ -186,25 +186,37 @@ registry.set('gemini', () => new GeminiProvider(process.env.GEMINI_API_KEY!));
 - Node.js 18+
 - npm
 
-### Setup
+### Setup & Running
+
+You can start both frontend and backend concurrently from the root directory with a single command:
+
+```bash
+# 1. Install all dependencies (root, backend, frontend)
+npm run install:all
+
+# 2. Setup database
+npm run db:generate
+npm run db:push
+
+# 3. Start both backend and frontend concurrently
+npm run dev
+```
+
+The root `dev` script uses `concurrently` to run both services side-by-side:
+- **Backend**: `http://localhost:3001` (Express API)
+- **Frontend**: `http://localhost:5173` (Vite dev server)
+
+#### Running Services Separately (Alternative)
 
 ```bash
 # Backend
 cd backend
-cp .env.example .env
-npm install
-npx prisma generate
-npx prisma db push
 npm run dev
 
 # Frontend (separate terminal)
 cd frontend
-cp .env.example .env
-npm install
 npm run dev
 ```
-
-The frontend runs on `http://localhost:5173` and proxies API requests to the backend on `http://localhost:3001`.
 
 ### Running Tests
 
