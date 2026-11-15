@@ -1,5 +1,6 @@
-import { SupportedFileType } from '../types/document.types';
-import { env } from '../config/env';
+import { SupportedFileType } from '../../types/document.types';
+
+const DEFAULT_MAX_FILE_SIZE = 1048576; // 1MB
 
 // Magic bytes for supported file types
 const MAGIC_BYTES: Record<string, { bytes: number[]; offset: number }[]> = {
@@ -42,8 +43,7 @@ export function validateMimeType(mimetype: string): ValidationResult {
   return { valid: true, fileType };
 }
 
-export function validateFileSize(size: number): ValidationResult {
-  const maxSize = env.MAX_FILE_SIZE_BYTES;
+export function validateFileSize(size: number, maxSize: number = DEFAULT_MAX_FILE_SIZE): ValidationResult {
   if (size > maxSize) {
     return { valid: false, error: `File exceeds maximum size of ${maxSize} bytes (${(maxSize / 1024 / 1024).toFixed(1)}MB). Got ${size} bytes.` };
   }
